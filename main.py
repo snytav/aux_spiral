@@ -136,8 +136,24 @@ def evaluate_on_circle(expr,rr,pp):
 # r,th = symbols ('r th')
 # y = np.exp(-r)*sin(th)
 
-def multiplot_expressions(expr,rr,pp,tit):
-    fig, axs = plt.subplots(3, 3)
+
+def plot_expression(c,name,ax):
+    import numpy as np
+    rm = 0.08
+    N = 100
+    xx = np.linspace(-rm, rm, N)
+    yy = np.linspace(-rm, rm, N)
+    x, y, r, th = symbols('x y r th')
+    # polar_expr = exp(-r) * sin(th)
+    c = polar2cartesian_expr(polar_expr)
+    # compute 2D matrix by functiom
+    m_c = compute_matrix_by_symbolic(c, xx, yy)
+    draw3D_surface(xx, yy, m_c, ax, name)
+
+    # https://matplotlib.org/stable/gallery/mplot3d/subplot3d.html
+    ax = fig.add_subplot(1, 2, 1, projection='3d')
+    plot_expression(expr, 'example', ax)
+    return
     axs[0, 0].plot(x, y)
     axs[0, 0].set_title('Axis [0, 0]')
     axs[0, 1].plot(x, y, 'tab:orange')
@@ -151,19 +167,20 @@ def multiplot_expressions(expr,rr,pp,tit):
 if __name__ == '__main__':
 
 
-    import numpy as np
-    rm = 0.08
-    N = 100
-    xx = np.linspace(-rm, rm, N)
-    yy = np.linspace(-rm, rm, N)
+    # import numpy as np
+    # rm = 0.08
+    # N = 100
+    # xx = np.linspace(-rm, rm, N)
+    # yy = np.linspace(-rm, rm, N)
     x, y,r,th = symbols('x y r th')
     polar_expr = exp(-r) * sin(th)
-    c = polar2cartesian_expr(polar_expr)
+
+    # c = polar2cartesian_expr(polar_expr)
     # compute 2D matrix by functiom
-    m_c = compute_matrix_by_symbolic(c, xx, yy)
+    # m_c = compute_matrix_by_symbolic(c, xx, yy)
     # draw 2D matrix
     fig, ax = plt.subplots(subplot_kw={"projection": "3d"})
-    draw3D_surface(xx, yy, m_c,ax,"example")
-
+    plot_expression(polar_expr, 'example', ax)
+    multiplot_expressions(polar_expr, 'example')
     qq = 0
     #define function doing that
