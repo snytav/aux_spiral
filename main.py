@@ -37,14 +37,14 @@ def compute_matrix_by_symbolic(c,xx,yy):
             Z[i][j] = t
     return Z
 
-def draw3D_surface(xx,yy,Z):
+def draw3D_surface(xx,yy,Z,ax,fig_title):
     import matplotlib.pyplot as plt
     import numpy as np
 
     from matplotlib import cm
     from matplotlib.ticker import LinearLocator
 
-    fig, ax = plt.subplots(subplot_kw={"projection": "3d"})
+
 
     # Make data.
     #X = np.arange(-5, 5, 0.25)
@@ -56,16 +56,23 @@ def draw3D_surface(xx,yy,Z):
     print(Z.shape)
 
     # Plot the surface.
+    ax.azim = -147.07792207792212
+    ax.dist = 10
+    ax.elev = 24.642857142856997
+
     surf = ax.plot_surface(X, Y, Z, cmap=cm.coolwarm,
                           linewidth=0, antialiased=False)
     # surf = ax.contour(X, Y, Z, cmap=cm.coolwarm,
     #                        linewidth=0, antialiased=False)
-
+    ax.set_xlabel('X')
+    ax.set_ylabel('Y')
+    ax.set_zlabel('Z')
+    plt.title(fig_title)
     # Customize the z axis.
-    ax.set_zlim(-1.01, 1.01)
-    ax.zaxis.set_major_locator(LinearLocator(10))
+    #ax.set_zlim(-1.01, 1.01)
+    #ax.zaxis.set_major_locator(LinearLocator(10))
     # A StrMethodFormatter is used automatically
-    ax.zaxis.set_major_formatter('{x:.02f}')
+    #ax.zaxis.set_major_formatter('{x:.02f}')
 
     # Add a color bar which maps values to colors.
     fig.colorbar(surf, shrink=0.5, aspect=5)
@@ -155,7 +162,8 @@ if __name__ == '__main__':
     # compute 2D matrix by functiom
     m_c = compute_matrix_by_symbolic(c, xx, yy)
     # draw 2D matrix
-    draw3D_surface(xx, yy, m_c)
-   
+    fig, ax = plt.subplots(subplot_kw={"projection": "3d"})
+    draw3D_surface(xx, yy, m_c,ax,"example")
+
     qq = 0
     #define function doing that
